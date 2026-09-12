@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лапа — салон стрижки собак</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF4E6;
+    --milk:#FFFBF4;
+    --ink:#37271E;
+    --ink-soft:#6C574B;
+    --rose:#FF5C8A;
+    --rose-deep:#E23F70;
+    --mint:#3FC79A;
+    --pink-card:#FFE7EF;
+    --mint-card:#DFF6EC;
+    --line:#F0DCC8;
+    --shadow:0 14px 34px -18px rgba(55,39,30,.45);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Manrope',sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:0 22px}
+  h1,h2,h3,.display{font-family:'Baloo 2',cursive;line-height:1.05}
+
+  /* ---------- HERO ---------- */
+  header{
+    position:relative;
+    padding:46px 0 30px;
+    overflow:hidden;
+  }
+  .paws{position:absolute;inset:0;pointer-events:none;opacity:.5}
+  .paw{position:absolute;font-size:clamp(28px,5vw,54px);opacity:.16;transform:rotate(var(--r,0deg))}
+  .brand{display:flex;align-items:center;gap:12px;font-family:'Baloo 2';font-weight:800;font-size:24px}
+  .brand .dot{width:42px;height:42px;border-radius:50%;background:var(--rose);display:grid;place-items:center;font-size:22px;box-shadow:0 6px 16px -6px var(--rose-deep)}
+  .hero-body{margin-top:42px;position:relative;z-index:1}
+  .eyebrow{
+    display:inline-block;background:var(--milk);border:1.5px solid var(--line);
+    padding:7px 16px;border-radius:999px;font-weight:700;font-size:14px;color:var(--ink-soft);
+  }
+  h1{font-size:clamp(44px,8vw,88px);font-weight:800;margin:18px 0 6px;letter-spacing:-.5px}
+  h1 .accent{color:var(--rose)}
+  .lede{font-size:clamp(17px,2.6vw,21px);color:var(--ink-soft);max-width:32ch;font-weight:500}
+
+  /* ---------- CARD / BOOKING ---------- */
+  main{padding:20px 0 70px}
+  .panel{
+    background:var(--milk);
+    border:1.5px solid var(--line);
+    border-radius:30px;
+    padding:clamp(22px,4vw,40px);
+    box-shadow:var(--shadow);
+  }
+  .section-title{font-size:14px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--rose-deep);margin-bottom:16px;font-family:'Manrope'}
+  .step{margin-bottom:34px}
+
+  /* services */
+  .services{display:grid;gap:14px}
+  @media(min-width:620px){.services{grid-template-columns:repeat(3,1fr)}}
+  .svc{
+    position:relative;cursor:pointer;
+    background:var(--cream);border:2px solid var(--line);border-radius:22px;
+    padding:20px 18px;transition:transform .15s ease,border-color .15s,background .15s;
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .svc:hover{transform:translateY(-3px)}
+  .svc input{position:absolute;opacity:0;pointer-events:none}
+  .svc .emo{font-size:34px}
+  .svc .name{font-family:'Baloo 2';font-weight:700;font-size:21px}
+  .svc .price{color:var(--ink-soft);font-weight:600}
+  .svc .tick{position:absolute;top:14px;right:14px;width:26px;height:26px;border-radius:50%;
+    border:2px solid var(--line);display:grid;place-items:center;color:#fff;font-size:15px;transition:.15s}
+  .svc.on{border-color:var(--rose);background:var(--pink-card)}
+  .svc.on .tick{background:var(--rose);border-color:var(--rose)}
+
+  /* size */
+  .sizes{display:flex;gap:12px;flex-wrap:wrap}
+  .size{
+    flex:1 1 140px;cursor:pointer;text-align:center;
+    background:var(--cream);border:2px solid var(--line);border-radius:20px;
+    padding:16px 12px;transition:.15s;
+  }
+  .size input{position:absolute;opacity:0}
+  .size .dog{font-size:30px;display:block}
+  .size .lbl{font-family:'Baloo 2';font-weight:700;font-size:18px;margin-top:2px}
+  .size .note{font-size:13px;color:var(--ink-soft);font-weight:600}
+  .size.on{border-color:var(--mint);background:var(--mint-card)}
+  .size:hover{transform:translateY(-2px)}
+  .stepper{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:12px}
+  .stepper button{width:34px;height:34px;border-radius:11px;border:2px solid var(--line);
+    background:var(--milk);color:var(--ink);font-family:'Baloo 2';font-weight:700;font-size:22px;
+    line-height:1;cursor:pointer;display:grid;place-items:center;transition:.12s}
+  .stepper button:hover{border-color:var(--rose);color:var(--rose);transform:translateY(-1px)}
+  .stepper button:active{transform:translateY(0)}
+  .stepper .count{font-family:'Baloo 2';font-weight:800;font-size:22px;min-width:26px;text-align:center}
+
+  /* running total */
+  .total-bar{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    background:var(--ink);color:#fff;border-radius:24px;padding:20px 26px;margin:6px 0 34px;
+  }
+  .total-bar .cap{font-weight:600;opacity:.8}
+  .total-bar .cap b{display:block;font-family:'Baloo 2';font-size:15px;opacity:1;font-weight:600}
+  .total-num{font-family:'Baloo 2';font-weight:800;font-size:clamp(34px,6vw,46px);line-height:1}
+  .total-num.bump{animation:bump .35s ease}
+  @keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.14)}100%{transform:scale(1)}}
+  .up{font-size:13px;font-weight:700;color:#FFC7DB;margin-top:2px;height:16px}
+
+  /* form */
+  .grid2{display:grid;gap:16px}
+  @media(min-width:620px){.grid2{grid-template-columns:1fr 1fr}}
+  .field{display:flex;flex-direction:column;gap:7px}
+  .field label{font-weight:700;font-size:14px;color:var(--ink-soft)}
+  .field input{
+    font-family:'Manrope';font-size:16px;color:var(--ink);
+    background:var(--cream);border:2px solid var(--line);border-radius:16px;
+    padding:14px 16px;transition:border-color .15s;width:100%;
+  }
+  .field input:focus{outline:none;border-color:var(--rose)}
+  .field input:focus-visible{outline:3px solid rgba(255,92,138,.35);outline-offset:1px}
+
+  .cta{
+    margin-top:26px;width:100%;cursor:pointer;
+    font-family:'Baloo 2';font-weight:800;font-size:22px;color:#fff;
+    background:var(--rose);border:none;border-radius:20px;padding:19px;
+    box-shadow:0 12px 24px -10px var(--rose-deep);transition:transform .12s,background .15s;
+  }
+  .cta:hover{background:var(--rose-deep);transform:translateY(-2px)}
+  .cta:active{transform:translateY(0)}
+  .err{color:var(--rose-deep);font-weight:700;font-size:14px;margin-top:14px;text-align:center;min-height:20px}
+
+  /* article */
+  .article{
+    background:var(--cream);border:2px solid var(--line);border-radius:24px;
+    padding:clamp(22px,4vw,34px);margin-bottom:34px;
+  }
+  .article h2{font-size:clamp(26px,4.4vw,34px);font-weight:700;margin:8px 0 6px;letter-spacing:-.3px}
+  .article .kicker{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--mint);font-family:'Manrope'}
+  .article .intro{color:var(--ink-soft);font-weight:600;font-size:17px;max-width:60ch}
+  .tips{display:grid;gap:14px;margin-top:22px}
+  @media(min-width:620px){.tips{grid-template-columns:1fr 1fr}}
+  .tip{
+    display:flex;gap:14px;align-items:flex-start;
+    background:var(--milk);border:1.5px solid var(--line);border-radius:18px;padding:16px 18px;
+  }
+  .tip .ico{font-size:28px;line-height:1;flex-shrink:0}
+  .tip h3{font-family:'Baloo 2';font-weight:700;font-size:19px;margin-bottom:2px}
+  .tip p{font-size:15px;color:var(--ink-soft);font-weight:500;line-height:1.5}
+  .article .outro{
+    margin-top:22px;background:var(--pink-card);border-radius:16px;
+    padding:16px 18px;font-weight:600;color:var(--ink);font-size:15px;
+  }
+  .article .outro b{color:var(--rose-deep)}
+
+  /* promo announcement */
+  .promo{
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+    background:var(--ink);color:#fff;border-radius:24px;
+    padding:22px 26px;margin-bottom:34px;position:relative;overflow:hidden;
+  }
+  .promo .lantern{font-size:44px;line-height:1;flex-shrink:0}
+  .promo .txt{flex:1;min-width:220px}
+  .promo .when{font-family:'Baloo 2';font-weight:700;font-size:14px;color:#FFC7DB;letter-spacing:.5px}
+  .promo .head{font-family:'Baloo 2';font-weight:800;font-size:clamp(20px,3.6vw,26px);margin:2px 0 4px}
+  .promo .sub{color:#EAD9D0;font-weight:600;font-size:15px}
+  .promo .sub b{color:#fff}
+  .promo .badge{
+    font-family:'Baloo 2';font-weight:800;font-size:26px;color:#fff;
+    background:var(--rose);border-radius:16px;padding:12px 20px;white-space:nowrap;
+    box-shadow:0 8px 18px -8px var(--rose-deep);
+  }
+
+  /* success */
+  .done{text-align:center;padding:16px 6px}
+  .done .seal{font-size:66px;animation:pop .5s ease}
+  @keyframes pop{0%{transform:scale(0) rotate(-20deg)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+  .done h2{font-size:clamp(32px,6vw,44px);margin:10px 0 4px}
+  .done p{color:var(--ink-soft);font-weight:600;font-size:17px}
+  .receipt{
+    background:var(--mint-card);border:2px solid var(--mint);border-radius:22px;
+    padding:24px;margin:24px auto 0;max-width:420px;text-align:left;
+  }
+  .receipt .row{display:flex;justify-content:space-between;padding:7px 0;font-weight:600;color:var(--ink-soft)}
+  .receipt .row span:last-child{color:var(--ink);font-weight:700;text-align:right}
+  .receipt .grand{border-top:2px dashed var(--mint);margin-top:8px;padding-top:14px;display:flex;justify-content:space-between;align-items:center}
+  .receipt .grand .g-lbl{font-family:'Baloo 2';font-weight:700;font-size:19px;color:var(--ink)}
+  .receipt .grand .g-num{font-family:'Baloo 2';font-weight:800;font-size:30px;color:var(--rose)}
+  .again{margin-top:22px;background:none;border:2px solid var(--line);color:var(--ink);
+    font-family:'Manrope';font-weight:700;font-size:15px;padding:12px 24px;border-radius:14px;cursor:pointer}
+  .again:hover{border-color:var(--rose);color:var(--rose)}
+  .hidden{display:none}
+
+  footer{text-align:center;padding:34px 0;color:var(--ink-soft);font-weight:600;font-size:14px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="paws" aria-hidden="true">
+    <span class="paw" style="top:8%;left:6%;--r:-18deg">🐾</span>
+    <span class="paw" style="top:20%;right:9%;--r:22deg">🐾</span>
+    <span class="paw" style="top:60%;left:14%;--r:8deg">🐾</span>
+    <span class="paw" style="top:74%;right:16%;--r:-24deg">🐾</span>
+  </div>
+  <div class="wrap">
+    <div class="brand"><span class="dot">🐾</span> Лапа</div>
+    <div class="hero-body">
+      <span class="eyebrow">Салон стрижки собак</span>
+      <h1>Красивый пёс <span class="accent">за пару часов</span></h1>
+      <p class="lede">Стрижка, купание и собачий педикюр. Выберите услуги — покажем цену сразу.</p>
+    </div>
+
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="panel" id="booking">
+
+    <div class="step">
+      <div class="section-title">1 · Услуги</div>
+      <div class="services">
+        <label class="svc" data-price="2500">
+          <input type="checkbox" value="Стрижка">
+          <span class="tick">✓</span>
+          <span class="emo">✂️</span>
+          <span class="name">Стрижка</span>
+          <span class="price">2500 ₽</span>
+        </label>
+        <label class="svc" data-price="1500">
+          <input type="checkbox" value="Купание">
+          <span class="tick">✓</span>
+          <span class="emo">🛁</span>
+          <span class="name">Купание</span>
+          <span class="price">1500 ₽</span>
+        </label>
+        <label class="svc" data-price="700">
+          <input type="checkbox" value="Когти">
+          <span class="tick">✓</span>
+          <span class="emo">🐾</span>
+          <span class="name">Когти</span>
+          <span class="price">700 ₽</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="section-title">2 · Размер собаки</div>
+      <div class="sizes">
+        <div class="size on" data-mult="1" data-name="Маленькая">
+          <span class="dog">🐕‍🦺</span>
+          <span class="lbl">Маленькая</span>
+          <span class="note">базовая цена</span>
+          <div class="stepper">
+            <button type="button" class="minus" aria-label="Убрать">−</button>
+            <span class="count">1</span>
+            <button type="button" class="plus" aria-label="Добавить">+</button>
+          </div>
+        </div>
+        <div class="size" data-mult="1.3" data-name="Средняя">
+          <span class="dog">🐕</span>
+          <span class="lbl">Средняя</span>
+          <span class="note">+30% к цене</span>
+          <div class="stepper">
+            <button type="button" class="minus" aria-label="Убрать">−</button>
+            <span class="count">0</span>
+            <button type="button" class="plus" aria-label="Добавить">+</button>
+          </div>
+        </div>
+        <div class="size" data-mult="1.5" data-name="Большая">
+          <span class="dog">🐩</span>
+          <span class="lbl">Большая</span>
+          <span class="note">+50% к цене</span>
+          <div class="stepper">
+            <button type="button" class="minus" aria-label="Убрать">−</button>
+            <span class="count">0</span>
+            <button type="button" class="plus" aria-label="Добавить">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="total-bar">
+      <div class="cap"><b>Итого к оплате</b>за выбранные услуги</div>
+      <div style="text-align:right">
+        <div class="total-num" id="total">0 ₽</div>
+        <div class="up" id="uplift"></div>
+      </div>
+    </div>
+
+    <article class="article">
+      <span class="kicker">Полезное</span>
+      <h2>Как ухаживать за шерстью между визитами</h2>
+      <p class="intro">Регулярный домашний уход сохраняет стрижку дольше, а собаке помогает чувствовать себя комфортно. Вот что стоит делать между походами в салон.</p>
+
+      <div class="tips">
+        <div class="tip">
+          <span class="ico">🪮</span>
+          <div>
+            <h3>Расчёсывайте регулярно</h3>
+            <p>Короткошёрстных — раз в неделю, длинношёрстных и пуделей — через день. Это убирает колтуны до того, как они появятся.</p>
+          </div>
+        </div>
+        <div class="tip">
+          <span class="ico">🛁</span>
+          <div>
+            <h3>Не купайте слишком часто</h3>
+            <p>Раз в 3–4 недели и только мягким зоошампунем — например, из линейки Sobachini: он бережно моет и не сушит кожу.</p>
+          </div>
+        </div>
+        <div class="tip">
+          <span class="ico">✂️</span>
+          <div>
+            <h3>Следите за проблемными зонами</h3>
+            <p>За ушами, под лапами и на животе шерсть путается первой. Проверяйте эти места чаще остальных.</p>
+          </div>
+        </div>
+        <div class="tip">
+          <span class="ico">🥩</span>
+          <div>
+            <h3>Начните с питания</h3>
+            <p>Блеск идёт изнутри: омега-3, белок и вода. А снаружи раз в месяц поддержит увлажняющая маска — нам нравится Sobachini.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="outro"><b>Появились колтуны или тускнеет шерсть?</b> Не вычёсывайте силой — запишитесь на купание, и мастер аккуратно приведёт шёрстку в порядок.</p>
+    </article>
+
+    <div class="promo">
+      <span class="lantern">🏮</span>
+      <div class="txt">
+        <div class="when">Послезавтра</div>
+        <div class="head">День Китая в «Лапе»</div>
+        <div class="sub">Для <b>китайских лысых хохлатых собачек</b> — скидка 50% на всё меню услуг.</div>
+      </div>
+      <span class="badge">−50%</span>
+    </div>
+
+    <div class="step">
+      <div class="section-title">3 · Запись</div>
+      <div class="grid2">
+        <div class="field">
+          <label for="owner">имя хозяина</label>
+          <input id="owner" type="text" placeholder="Например, Анна" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="phone">телефон</label>
+          <input id="phone" type="tel" placeholder="+7 900 000-00-00" autocomplete="tel">
+        </div>
+        <div class="field">
+          <label for="pet">кличка собаки</label>
+          <input id="pet" type="text" placeholder="Например, Тузик">
+        </div>
+        <div class="field">
+          <label for="date">дата</label>
+          <input id="date" type="date">
+        </div>
+      </div>
+      <button class="cta" id="submit">Записаться 🐾</button>
+      <div class="err" id="err"></div>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="panel hidden" id="success">
+    <div class="done">
+      <div class="seal">🎉</div>
+      <h2>Заявка принята!</h2>
+      <p>Мы позвоним, чтобы подтвердить время.</p>
+      <div class="receipt" id="receipt"></div>
+      <button class="again" id="again">← Записать ещё одного</button>
+    </div>
+  </div>
+</main>
+
+<footer class="wrap">Салон «Лапа» · ежедневно 10:00–20:00 · с любовью к хвостатым</footer>
+
+<script>
+  const svcEls  = [...document.querySelectorAll('.svc')];
+  const sizeEls = [...document.querySelectorAll('.size')];
+  const totalEl = document.getElementById('total');
+  const upliftEl= document.getElementById('uplift');
+  const fmt = n => n.toLocaleString('ru-RU') + ' ₽';
+
+  function selectedServices(){
+    return svcEls.filter(el => el.querySelector('input').checked)
+      .map(el => ({name: el.querySelector('input').value, price: +el.dataset.price}));
+  }
+  function baseTotal(){ return selectedServices().reduce((s,x)=>s+x.price,0); }
+  function countOf(el){ return +el.querySelector('.count').textContent; }
+  function sizePrice(mult){ return Math.round(baseTotal()*mult); }   // цена за одну собаку этого размера
+  function dogCount(){ return sizeEls.reduce((s,el)=>s+countOf(el),0); }
+  function grandTotal(){ return sizeEls.reduce((s,el)=> s + sizePrice(+el.dataset.mult)*countOf(el), 0); }
+
+  function plural(n, one, few, many){
+    const a=n%10, b=n%100;
+    if(a===1 && b!==11) return one;
+    if(a>=2 && a<=4 && (b<10||b>=20)) return few;
+    return many;
+  }
+
+  function render(){
+    const total = grandTotal();
+    totalEl.textContent = fmt(total);
+    totalEl.classList.remove('bump'); void totalEl.offsetWidth; totalEl.classList.add('bump');
+    const dogs = dogCount();
+    upliftEl.textContent = (dogs>0 && baseTotal()>0)
+      ? (dogs + ' ' + plural(dogs,'собака','собаки','собак') + ' в записи')
+      : '';
+  }
+
+  svcEls.forEach(el=>{
+    const box = el.querySelector('input');
+    box.addEventListener('change', ()=>{
+      el.classList.toggle('on', box.checked);
+      render();
+    });
+  });
+  sizeEls.forEach(el=>{
+    const countEl = el.querySelector('.count');
+    const upd = d=>{
+      countEl.textContent = Math.max(0, Math.min(20, countOf(el)+d));
+      el.classList.toggle('on', countOf(el)>0);
+      render();
+    };
+    el.querySelector('.plus').addEventListener('click', ()=>upd(1));
+    el.querySelector('.minus').addEventListener('click', ()=>upd(-1));
+  });
+
+  document.getElementById('submit').addEventListener('click', ()=>{
+    const owner = document.getElementById('owner').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const pet   = document.getElementById('pet').value.trim();
+    const date  = document.getElementById('date').value;
+    const err   = document.getElementById('err');
+    const svcs  = selectedServices();
+
+    if(!svcs.length){ err.textContent='Выберите хотя бы одну услугу 🐾'; return; }
+    if(dogCount()===0){ err.textContent='Добавьте хотя бы одну собаку'; return; }
+    if(!owner || !phone || !pet || !date){ err.textContent='Заполните все поля записи'; return; }
+    err.textContent='';
+
+    const total = grandTotal();
+    const d = new Date(date).toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'});
+
+    const sizeRows = sizeEls.filter(el=>countOf(el)>0).map(el=>{
+      const n=countOf(el), mult=+el.dataset.mult, pct=Math.round((mult-1)*100);
+      const tag = pct>0 ? ` (+${pct}%)` : '';
+      return `<div class="row"><span>${el.dataset.name}${tag} × ${n}</span><span>${fmt(sizePrice(mult)*n)}</span></div>`;
+    }).join('');
+
+    document.getElementById('receipt').innerHTML = `
+      <div class="row"><span>Хозяин</span><span>${owner}</span></div>
+      <div class="row"><span>Кличка</span><span>${pet}</span></div>
+      <div class="row"><span>Телефон</span><span>${phone}</span></div>
+      <div class="row"><span>Дата</span><span>${d}</span></div>
+      <div style="height:8px"></div>
+      <div class="row"><span>Услуги (на собаку)</span><span>${svcs.map(s=>s.name).join(', ')}</span></div>
+      <div style="height:8px"></div>
+      ${sizeRows}
+      <div class="grand"><span class="g-lbl">Итого</span><span class="g-num">${fmt(total)}</span></div>`;
+
+    document.getElementById('booking').classList.add('hidden');
+    document.getElementById('success').classList.remove('hidden');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  document.getElementById('again').addEventListener('click', ()=>{
+    document.getElementById('success').classList.add('hidden');
+    document.getElementById('booking').classList.remove('hidden');
+  });
+
+  render();
+</script>
+</body>
+</html>
